@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="GalleryCollectionViewCell" id="gTV-IL-0wX" customClass="GalleryCollectionViewCell" customModule="Tuhu" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pd5-zl-kvI">
+                        <rect key="frame" x="0.0" y="7" width="93" height="93"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="pd5-zl-kvI" secondAttribute="height" multiplier="1:1" id="HtH-ko-YxW"/>
+                        </constraints>
+                    </imageView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vFl-nX-W0h">
+                        <rect key="frame" x="86" y="0.0" width="14" height="14"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="14" id="FOF-9O-3Pu"/>
+                            <constraint firstAttribute="width" secondItem="vFl-nX-W0h" secondAttribute="height" multiplier="1:1" id="NXe-Gy-KwK"/>
+                        </constraints>
+                        <state key="normal" image="aftersale_delete"/>
+                    </button>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="pd5-zl-kvI" secondAttribute="bottom" id="7mB-cN-YCv"/>
+                <constraint firstItem="vFl-nX-W0h" firstAttribute="centerY" secondItem="pd5-zl-kvI" secondAttribute="top" id="BbE-Gk-B3i"/>
+                <constraint firstItem="vFl-nX-W0h" firstAttribute="centerX" secondItem="pd5-zl-kvI" secondAttribute="trailing" id="Q5U-iy-bvC"/>
+                <constraint firstAttribute="trailing" secondItem="pd5-zl-kvI" secondAttribute="trailing" constant="7" id="Z0u-7d-PJm"/>
+                <constraint firstItem="pd5-zl-kvI" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="qXu-B0-Aup"/>
+            </constraints>
+            <connections>
+                <outlet property="deleteButton" destination="vFl-nX-W0h" id="vgc-UY-ZZ8"/>
+                <outlet property="imageView" destination="pd5-zl-kvI" id="WPf-Qq-iXe"/>
+            </connections>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="aftersale_delete" width="14" height="14"/>
+    </resources>
+</document>

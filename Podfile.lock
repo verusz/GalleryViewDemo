@@ -1,0 +1,27 @@
+PODS:
+  - Differentiator (2.0.2)
+  - RxCocoa (3.6.1):
+    - RxSwift (~> 3.6)
+  - RxDataSources (2.0.2):
+    - Differentiator (~> 2.0)
+    - RxCocoa (>= 3.6.1)
+    - RxSwift (>= 3.6.1)
+  - RxSwift (3.6.1)
+  - TZImagePickerController (1.9.6)
+
+DEPENDENCIES:
+  - RxCocoa (~> 3.4)
+  - RxDataSources
+  - RxSwift (~> 3.4)
+  - TZImagePickerController (~> 1.5)
+
+SPEC CHECKSUMS:
+  Differentiator: caa9b3957981a2ac8e6b2eac8a676af461caa604
+  RxCocoa: 84a08739ab186248c7f31ce4ee92d6f8a947d690
+  RxDataSources: 7f190474a93a206c082c2d74c4cc9c8f7bea4feb
+  RxSwift: f9de85ea20cd2f7716ee5409fc13523dc638e4e4
+  TZImagePickerController: 276dc7c0cc70da9ee354046474b405d87ef81c89
+
+PODFILE CHECKSUM: f1fe985b963ae2fd21900bbab3df6cdbab0c2efa
+
+COCOAPODS: 1.3.1
