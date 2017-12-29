@@ -9,73 +9,104 @@
 import UIKit
 import TZImagePickerController
 
-class ComplaintGalleryView: UIView, UICollectionViewDelegate, UICollectionViewDataSource {
+func + (lhs: Int, rhs: Double) -> Double {return Double(lhs) + rhs}
+func / (lhs: Double, rhs: Int) -> Double {return lhs / Double(rhs)}
 
-    var showPhotoSelectionHandler: ((Bool, String) -> Void)?
+
+class GalleryViewLayout: NSObject {
+    var lineNum = 2 //行数
+    var columnNum = 5 //列数
+    var imagesNum = 0 //总数
     
-    let screenWidth = UIScreen.main.bounds.size.width
+    convenience init (_ lineNum: Int, _ columnNum: Int ) {
+        self.init()
+        
+        self.lineNum = lineNum
+        self.columnNum = columnNum
+        self.imagesNum = lineNum * columnNum
+    }
+    
+    override init() {
+        super.init()
+    }
+    
+}
 
+class GalleryView: UIView, UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    var screenSize: CGSize { return UIScreen.main.bounds.size }
+    
+    var showPhotoSelectionHandler: ((Bool, String) -> Void)? // 第一个参数若为true，则在galleryView已有图片的情况下不需要自动提醒上传照片。第二个参数则为actionSheet的提示信息
+    
+    fileprivate var galleryLayout: GalleryViewLayout!  //galleryView的布局设置
+    
     @IBOutlet weak var collectionView: UICollectionView!
-
+    
     fileprivate var imagesArray: [UIImage] = Array()
-
+    
     fileprivate let kCellReuseIdentifier = "GalleryCollectionViewCell"
-
+    
     lazy var controller: UIViewController = {
         return UIViewController.currentViewController()
         }()!
-
-    @objc dynamic var moreThanFivePics = false
-
+    
+    @objc dynamic var currentLine = 1
+    
     fileprivate let actionSheet: UIAlertController = UIAlertController(title: "", message: "您还可以上传10张照片", preferredStyle: .actionSheet)
-
-    //Mark:Public Method
-    class func loadNibView() -> ComplaintGalleryView {
-        if let nibView = Bundle.main.loadNibNamed("ComplaintGalleryView", owner: self, options: nil)?.first as? ComplaintGalleryView {
-            nibView.initialize()
+    
+    //MARK:Public Method
+    class func loadNibView(galleryLayout layout: GalleryViewLayout) -> GalleryView {
+        if let nibView = Bundle.main.loadNibNamed("GalleryView", owner: self, options: nil)?.first as? GalleryView {
+            nibView.initialize(layout)
             return nibView
         } else {
-            return ComplaintGalleryView()
+            return GalleryView()
         }
     }
-
+    
     func photos() -> [UIImage] {
         return imagesArray
     }
-
-    //Mark:Private Method
-    fileprivate func initialize() {
+    
+    //MARK:Private Method
+    fileprivate func initialize(_ galleryLayout: GalleryViewLayout) {
+        self.galleryLayout = galleryLayout
+        
         let layout = UICollectionViewFlowLayout.init()
-        layout.itemSize = CGSize(width: (screenWidth - 30) / 5.0, height: (screenWidth - 30) / 5.0)
+        layout.itemSize = CGSize(width: (screenSize.width - 30) / galleryLayout.columnNum, height: (screenSize.width - 30) / galleryLayout.columnNum)
         layout.minimumLineSpacing = CGFloat.leastNormalMagnitude
         layout.minimumInteritemSpacing = CGFloat.leastNormalMagnitude
-
+        
         collectionView.register(UINib(nibName: kCellReuseIdentifier, bundle: Bundle.main), forCellWithReuseIdentifier: kCellReuseIdentifier)
         collectionView.collectionViewLayout = layout
+        collectionView.backgroundColor = UIColor.clear
         collectionView.delegate = self
         collectionView.dataSource = self
-
+        
         showPhotoSelectionHandler = { [weak self] condition, text in
+            guard let weakSelf = self else {
+                return
+            }
             // 处理选择以及拍摄照片事件,同时判断如果有已有照片是否需要继续展示
-            if condition && ((self?.imagesArray.count)! > 0) {
+            if condition && (weakSelf.imagesArray.count > 0) {
                 return
             }
             if text.count > 0 {
-                self?.actionSheet.message = text
+                weakSelf.actionSheet.message = text
             } else {
-                self?.actionSheet.message = "您还可以上传\(10 - (self?.imagesArray.count)!)张照片"
+                weakSelf.actionSheet.message = "您还可以上传\(weakSelf.galleryLayout.imagesNum - weakSelf.imagesArray.count)张照片"
             }
-            self?.controller.present((self?.actionSheet)!, animated: true, completion: nil)
+            weakSelf.controller.present(weakSelf.actionSheet, animated: true, completion: nil)
         }
-
+        
         initActionSheet()
     }
-
+    
     fileprivate func initActionSheet() {
         let imageLibraryAction = UIAlertAction.init(title: "打开相册", style: .`default`) { [weak self] (_) in
             self?.showImageBroswer()
         }
-
+        
         let takePhotoAction = UIAlertAction.init(title: "照相机", style: .`default`) { [weak self] (_) in
             self?.initPickController()
         }
@@ -83,14 +114,14 @@ class ComplaintGalleryView: UIView, UICollectionViewDelegate, UICollectionViewDa
         actionSheet.addAction(takePhotoAction)
         actionSheet.addAction(UIAlertAction.init(title: "取消", style: .cancel, handler: nil))
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return imagesArray.count == 10 ? imagesArray.count : imagesArray.count + 1
+        return imagesArray.count == galleryLayout.imagesNum ? imagesArray.count : imagesArray.count + 1
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCellReuseIdentifier, for: indexPath) as! GalleryCollectionViewCell
-        if indexPath.row == imagesArray.count && imagesArray.count < 10 { //判断是否存在添加图片按钮
+        if indexPath.row == imagesArray.count && imagesArray.count < galleryLayout.imagesNum { //判断是否存在添加图片按钮
             cell.couldAddPic = true
         } else {
             cell.couldAddPic = false
@@ -105,44 +136,32 @@ class ComplaintGalleryView: UIView, UICollectionViewDelegate, UICollectionViewDa
         }
         return cell
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! GalleryCollectionViewCell
         if cell.couldAddPic {
             showPhotoSelectionHandler!(false, "")
-            if indexPath.row == 9 {//满足第10个图片为添加按钮
+            if indexPath.row == galleryLayout.imagesNum - 1 {//满足第10个图片为添加按钮
                 cell.removeFromSuperview()//删除最后一个cell
             }
-
         }
     }
-
+    
     fileprivate func reload(_ images: [UIImage] = Array()) {
+        //        let lastLine = ceil(Double(images.count) / galleryLayout.columnNum)
         if images.count > 0 {
             imagesArray.append(contentsOf: images)
         }
-        moreThanFivePics = imagesArray.count < 5 ? false : true
+        currentLine = Int(ceil((imagesArray.count + 1.0) / galleryLayout.columnNum))
+        
+        //        needAddLine = currentLine > lastLine //需要添加行数的判断条件
+        //        needReduceLine = currentLine < lastLine //需要减少行数的判断条件
         collectionView.reloadData()
     }
 }
 
-extension UIViewController {
-    class func currentViewController(base: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
-        if let nav = base as? UINavigationController {
-            return currentViewController(base: nav.visibleViewController)
-        }
-        if let tab = base as? UITabBarController {
-            return currentViewController(base: tab.selectedViewController)
-        }
-        if let presented = base?.presentedViewController {
-            return currentViewController(base: presented)
-        }
-        return base
-    }
-}
-
-extension ComplaintGalleryView: UIImagePickerControllerDelegate, UINavigationControllerDelegate { //打开照相机
-
+extension GalleryView: UIImagePickerControllerDelegate, UINavigationControllerDelegate { //打开照相机
+    
     fileprivate func initPickController() {
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
             let pickerImage = UIImagePickerController()
@@ -157,7 +176,7 @@ extension ComplaintGalleryView: UIImagePickerControllerDelegate, UINavigationCon
             print("未找到拍照设备")
         }
     }
-
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
         picker.dismiss(animated: true, completion: nil)
         guard let image = info["UIImagePickerControllerOriginalImage"] as? UIImage else {
@@ -168,24 +187,39 @@ extension ComplaintGalleryView: UIImagePickerControllerDelegate, UINavigationCon
     }
 }
 
-extension ComplaintGalleryView: TZImagePickerControllerDelegate { //打开相册
-
+extension GalleryView: TZImagePickerControllerDelegate { //打开相册
     fileprivate func showImageBroswer() {
-        let tzImagePicker = TZImagePickerController(maxImagesCount: 10 - imagesArray.count, delegate: self)!
+        let tzImagePicker = TZImagePickerController(maxImagesCount: galleryLayout.imagesNum - imagesArray.count, delegate: self)!
         tzImagePicker.isSelectOriginalPhoto = true
         tzImagePicker.autoDismiss = false
         tzImagePicker.navigationBar.isTranslucent = false
-//        tzImagePicker.navigationBar.barTintColor =  AppThemeConstant.defaultNavigationBarTintColor
+        tzImagePicker.navigationBar.barTintColor = UIColor(223, 51, 72)
         controller.present(tzImagePicker, animated: true, completion: nil)
     }
-
+    
     func imagePickerController(_ picker: TZImagePickerController!, didFinishPickingPhotos photos: [UIImage]!, sourceAssets assets: [Any]!, isSelectOriginalPhoto: Bool) {
         self.reload(photos)
         picker.dismiss(animated: true)
     }
-
+    
     func tz_imagePickerControllerDidCancel(_ picker: TZImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
     }
+    
+}
 
+
+extension UIViewController {
+    class func currentViewController(base: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
+        if let nav = base as? UINavigationController {
+            return currentViewController(base: nav.visibleViewController)
+        }
+        if let tab = base as? UITabBarController {
+            return currentViewController(base: tab.selectedViewController)
+        }
+        if let presented = base?.presentedViewController {
+            return currentViewController(base: presented)
+        }
+        return base
+    }
 }

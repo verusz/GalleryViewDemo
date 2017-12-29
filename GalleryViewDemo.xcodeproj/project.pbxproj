@@ -18,8 +18,8 @@
 		E1B20AC81FF1EA6100C612B1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E1B20AC61FF1EA6100C612B1 /* Main.storyboard */; };
 		E1B20ACA1FF1EA6100C612B1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1B20AC91FF1EA6100C612B1 /* Assets.xcassets */; };
 		E1B20ACD1FF1EA6100C612B1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E1B20ACB1FF1EA6100C612B1 /* LaunchScreen.storyboard */; };
-		E1B20AD91FF1EA7300C612B1 /* ComplaintGalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B20AD51FF1EA7300C612B1 /* ComplaintGalleryView.swift */; };
-		E1B20ADB1FF1EA7300C612B1 /* ComplaintGalleryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1B20AD71FF1EA7300C612B1 /* ComplaintGalleryView.xib */; };
+		E1B20AD91FF1EA7300C612B1 /* GalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B20AD51FF1EA7300C612B1 /* GalleryView.swift */; };
+		E1B20ADB1FF1EA7300C612B1 /* GalleryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1B20AD71FF1EA7300C612B1 /* GalleryView.xib */; };
 		E1B20ADE1FF1EAB200C612B1 /* GalleryCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1B20ADC1FF1EAB200C612B1 /* GalleryCollectionViewCell.xib */; };
 		E1B20ADF1FF1EAB200C612B1 /* GalleryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B20ADD1FF1EAB200C612B1 /* GalleryCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
@@ -39,8 +39,8 @@
 		E1B20AC91FF1EA6100C612B1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E1B20ACC1FF1EA6100C612B1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E1B20ACE1FF1EA6100C612B1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E1B20AD51FF1EA7300C612B1 /* ComplaintGalleryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComplaintGalleryView.swift; sourceTree = "<group>"; };
-		E1B20AD71FF1EA7300C612B1 /* ComplaintGalleryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ComplaintGalleryView.xib; sourceTree = "<group>"; };
+		E1B20AD51FF1EA7300C612B1 /* GalleryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryView.swift; sourceTree = "<group>"; };
+		E1B20AD71FF1EA7300C612B1 /* GalleryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GalleryView.xib; sourceTree = "<group>"; };
 		E1B20ADC1FF1EAB200C612B1 /* GalleryCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GalleryCollectionViewCell.xib; sourceTree = "<group>"; };
 		E1B20ADD1FF1EAB200C612B1 /* GalleryCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryCollectionViewCell.swift; sourceTree = "<group>"; };
 		F6B1584415F3A0C977A021B6 /* Pods-GalleryViewDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GalleryViewDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GalleryViewDemo/Pods-GalleryViewDemo.debug.xcconfig"; sourceTree = "<group>"; };
@@ -94,8 +94,8 @@
 				E12738B21FF1F67C001AD955 /* aftersale_delete@2x.png */,
 				E12738B31FF1F67C001AD955 /* aftersale_delete@3x.png */,
 				E12738AF1FF1F310001AD955 /* aftersale_camera@3x.png */,
-				E1B20AD51FF1EA7300C612B1 /* ComplaintGalleryView.swift */,
-				E1B20AD71FF1EA7300C612B1 /* ComplaintGalleryView.xib */,
+				E1B20AD51FF1EA7300C612B1 /* GalleryView.swift */,
+				E1B20AD71FF1EA7300C612B1 /* GalleryView.xib */,
 				E1B20ADD1FF1EAB200C612B1 /* GalleryCollectionViewCell.swift */,
 				E1B20ADC1FF1EAB200C612B1 /* GalleryCollectionViewCell.xib */,
 				E1B20AC41FF1EA6100C612B1 /* ViewController.swift */,
@@ -179,7 +179,7 @@
 			files = (
 				E12738B11FF1F310001AD955 /* aftersale_camera@3x.png in Resources */,
 				E1B20ACD1FF1EA6100C612B1 /* LaunchScreen.storyboard in Resources */,
-				E1B20ADB1FF1EA7300C612B1 /* ComplaintGalleryView.xib in Resources */,
+				E1B20ADB1FF1EA7300C612B1 /* GalleryView.xib in Resources */,
 				E1B20ACA1FF1EA6100C612B1 /* Assets.xcassets in Resources */,
 				E1B20ADE1FF1EAB200C612B1 /* GalleryCollectionViewCell.xib in Resources */,
 				E12738B41FF1F67C001AD955 /* aftersale_delete@2x.png in Resources */,
@@ -262,7 +262,7 @@
 				E1B20ADF1FF1EAB200C612B1 /* GalleryCollectionViewCell.swift in Sources */,
 				E1B20AC31FF1EA6100C612B1 /* AppDelegate.swift in Sources */,
 				E12738AD1FF1EDC2001AD955 /* UIColor+Hex.swift in Sources */,
-				E1B20AD91FF1EA7300C612B1 /* ComplaintGalleryView.swift in Sources */,
+				E1B20AD91FF1EA7300C612B1 /* GalleryView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
